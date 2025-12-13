@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Downhill Domination</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      background-image: url('background.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: 0 1.5cm;
+      background-color: #82c9ff;
+      color: rgb(0, 0, 0);
+      font-family: system-ui, sans-serif;
+      overflow: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      margin: 20px 0 5px;
+      font-size: 2rem;
+    }
+
+    p {
+      text-align: center;
+      opacity: 0.7;
+      margin: 0 0 20px;
+    }
+
+    button {
+      display: block;
+      margin: 0 auto 30px;
+      padding: 10px 20px;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .track {
+      position: relative;
+      width: 100vw;
+      height: calc(100vh - 150px);
+      margin-top: 60px;
+
+    }
+
+
+    .racer {
+      position: absolute;
+      left: 0;
+      top: 20px;
+      font-size: 1.5rem;
+      white-space: nowrap;
+    }
+
+    .runner {
+      opacity: 1;
+    }
+
+    .justin {
+      font-size: 2rem;
+    }
+
+    .justin.moving::before {
+      content: "⋆.˚—͟͟͞͞";
+      transform: rotate(19deg);
+      color: rgb(255, 255, 255);
+      display: inline-block;
+      position: absolute;
+      top: -20px;
+      left: -70px;
+      z-index: -1;
+    }
+
+    img.racer {
+      width: 3.6rem;
+      height: 3.6rem;
+    }
+
+  </style>
+</head>
+
+<body>
+
+<h1>Downhill Race</h1>
+<p>Justin vs Gravity’s Victims</p>
+<button onclick="startRace()">Start Race</button>
+
+<div class="track">
+  <img src="racer.png" alt="Alex" class="racer runner" style="top: 0px;">
+  <img src="racer.png" alt="Sam" class="racer runner" style="top: 40px;">
+  <img src="racer.png" alt="Chris" class="racer runner" style="top: 110px;">
+
+  <div class="racer justin" style="top: 78px;">♿ </div>
+
+  <div class="finish"></div>
+</div>
+
+<script>
+  function startRace() {
+    document.querySelector('.justin').classList.add('moving');
+    const racers = document.querySelectorAll('.racer');
+    racers.forEach(racer => {
+      racer.dataset.originalTop = racer.style.top;
+    });
+    const slope = 0.35; // downhill steepness (higher = steeper)
+
+    racers.forEach(racer => {
+      let x = 0;
+      let y = parseInt(racer.style.top);
+
+      const isJustin = racer.classList.contains('justin');
+
+      const speed = isJustin
+        ? Math.random() * 3 + 7   // Justin = rocket
+        : Math.random() * 2 + 2;  // runners = cope
+
+      const interval = setInterval(() => {
+        x += speed;
+        y += speed * slope;
+
+        racer.style.left = x + 'px';
+        racer.style.top = y + 'px';
+
+        if (x > window.innerWidth - 100) {
+          clearInterval(interval);
+
+          if (isJustin) {
+            confetti({ origin: { x: 0.1, y: 0.6 }, scalar: 1.5, particleCount: 40 });
+            confetti({ origin: { x: 0.3, y: 0.6 }, scalar: 1.5, particleCount: 40 });
+            confetti({ origin: { x: 0.5, y: 0.6 }, scalar: 1.5, particleCount: 40 });
+            confetti({ origin: { x: 0.7, y: 0.6 }, scalar: 1.5, particleCount: 40 });
+            confetti({ origin: { x: 0.9, y: 0.6 }, scalar: 1.5, particleCount: 40 });
+            setTimeout(() => {
+              alert("Justin wins. Gravity has a favourite.");
+              location.reload();
+            }, 200);
+          }
+        }
+      }, 30);
+    });
+  }
+</script>
+
+
+</body>
+</html>

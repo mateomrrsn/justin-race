@@ -85,7 +85,7 @@
 
 <body>
 
-<h1>Downhill Race</h1>
+<h1>Downhill Domination</h1>
 <p>Justin vs Gravity’s Victims</p>
 <button onclick="startRace()">Start Race</button>
 
@@ -115,7 +115,7 @@
       const isJustin = racer.classList.contains('justin');
 
       const speed = isJustin
-        ? Math.random() * 3 + 7   // Justin = rocket
+        ? Math.random() * 4 + 9   // Justin = rocket
         : Math.random() * 2 + 2;  // runners = cope
 
       const interval = setInterval(() => {
@@ -135,7 +135,7 @@
             confetti({ origin: { x: 0.7, y: 0.6 }, scalar: 1.5, particleCount: 40 });
             confetti({ origin: { x: 0.9, y: 0.6 }, scalar: 1.5, particleCount: 40 });
             setTimeout(() => {
-              alert("Justin wins. Gravity has a favourite.");
+              alert("Justin wins. Gravity had a favourite.");
               location.reload();
             }, 200);
           }
